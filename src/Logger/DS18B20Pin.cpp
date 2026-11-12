@@ -92,7 +92,24 @@ void DS18B20Pin::scanSensors()
 
 void DS18B20Pin::readTemperature()
 {
+    //_sensors.requestTemperatures();
+    
+    // 1. Asynchronen Messstart vorbereiten, damit wir den Pin selbst halten können
+    _sensors.setWaitForConversion(false);
     _sensors.requestTemperatures();
+
+    // 2. Strong Pull-up: Pin hart auf 3,3V schalten, damit der Kondensator im Sensor geladen bleibt
+    pinMode(_pin, OUTPUT);
+    digitalWrite(_pin, HIGH);
+
+    // 3. Warten, bis die Messung fertig ist (750 ms reichen sicher für bis zu 12-Bit Auflösung)
+    delay(750);
+
+    // 4. Pin wieder als Eingang freigeben, bevor Daten gelesen werden!
+    pinMode(_pin, INPUT);
+    _sensors.setWaitForConversion(true);
+   
+    
     auto config = Configuration.get();
 
     for (const auto& entry : _list) {
