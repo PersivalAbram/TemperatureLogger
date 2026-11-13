@@ -21,7 +21,7 @@ DS18B20Pin::DS18B20Pin(int pin)
     _ow.begin(_pin);
     _sensors.setOneWire(&_ow);
     _sensors.begin();
-
+    _sensors.setResolution(10);
     // ZWINGEND ERFORDERLICH FÜR PARASITÄREN MODUS:
     _sensors.setWaitForConversion(true); // Wartet aktiv, bis die Konvertierung fertig ist
     
@@ -115,7 +115,7 @@ void DS18B20Pin::readTemperature()
     digitalWrite(_pin, HIGH);
 
     // 3. Warten, bis die Messung fertig ist (750 ms reichen sicher für bis zu 12-Bit Auflösung)
-    delay(1000);
+    delay(750);
 
     // 4. Pin wieder als Eingang freigeben, bevor Daten gelesen werden!
     pinMode(_pin, INPUT);
