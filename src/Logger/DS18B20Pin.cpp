@@ -19,8 +19,20 @@ DS18B20Pin::DS18B20Pin(int pin)
     MessageOutput.printf("DS18B20Pin %d\r\n", pin);
 
     _ow.begin(_pin);
-    _sensors.setOneWire(&_ow);
+    sensors.setOneWire(&_ow);
     _sensors.begin();
+
+    // ZWINGEND ERFORDERLICH FÜR PARASITÄREN MODUS:
+    _sensors.setWaitForConversion(true); // Wartet aktiv, bis die Konvertierung fertig ist
+    
+
+    // Optionale Überprüfung für den Log:
+    if (_sensors.isParasitePowerMode()) {
+        MessageOutput.println("DS18B20: Parasite Power mode detected.");
+    } else {
+        MessageOutput.println("DS18B20 WARNING: Parasite Power NOT detected automatically!");
+    }
+
 }
 
 void DS18B20Pin::scanSensors()
