@@ -19,7 +19,7 @@ DS18B20Pin::DS18B20Pin(int pin)
     MessageOutput.printf("DS18B20Pin %d\r\n", pin);
 
     _ow.begin(_pin);
-    sensors.setOneWire(&_ow);
+    _sensors.setOneWire(&_ow);
     _sensors.begin();
 
     // ZWINGEND ERFORDERLICH FÜR PARASITÄREN MODUS:
