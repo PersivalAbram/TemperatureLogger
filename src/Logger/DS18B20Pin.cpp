@@ -115,7 +115,7 @@ void DS18B20Pin::readTemperature()
     digitalWrite(_pin, HIGH);
 
     // 3. Warten, bis die Messung fertig ist (750 ms reichen sicher für bis zu 12-Bit Auflösung)
-    delay(750);
+    delay(1000);
 
     // 4. Pin wieder als Eingang freigeben, bevor Daten gelesen werden!
     pinMode(_pin, INPUT);
